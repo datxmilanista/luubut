@@ -11,7 +11,8 @@ import {
   Letter,
   Theme,
   WarnBeforeUnload,
-  ContactAuthor
+  ContactAuthor,
+  ProgressIndicator
 } from "./components/hooks";
 import { useState, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
@@ -34,6 +35,18 @@ function App() {
     memories: "",
     message: "",
   });
+
+  // Calculate current step for progress indicator
+  const getCurrentStep = () => {
+    if (!show) return 0;
+    if (data.name === "") return 1;
+    if (data.about === "") return 2;
+    if (data.handsome === 40) return 3;
+    if (data.memories === "") return 4;
+    if (data.message === "") return 5;
+    return 6;
+  };
+
   //check if data is on local storage
   const localData = localStorage.getItem("data");
   useEffect(() => {
@@ -42,12 +55,14 @@ function App() {
       setAvailable(false);
     }
   }, [localData]);
+  
   console.clear();
   console.log("Data: ", data);
-  console.log("Is on development environment: ", onDevelopmentEnv)
+  console.log("Is on development environment: ", onDevelopmentEnv);
   
   return (
     <Theme>
+      {show && <ProgressIndicator currentStep={getCurrentStep()} />}
       <HeadCard show={show}
         setShow={setShow}
         setData={setData}

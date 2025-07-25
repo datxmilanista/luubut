@@ -75,7 +75,7 @@ const ContactAuthor = () => {
           mb: 2 
         }}>
           <Avatar
-            src="https://img.upanh.tv/2024/11/03/milan.jpg"
+            src="/images/avatar.jpg"
             sx={{ 
               width: 80, 
               height: 80, 

@@ -54,7 +54,7 @@ const Thanks = ({ show, data, available }) => {
               <CardMedia
                 component="img"
                 height="400"
-                image="https://img.upanh.tv/2024/06/05/imaged47490f4a422b73b.png"
+                image="/images/thank-you.jpg"
                 alt="Tớ ngồi code sml"
                 sx={{
                   transition: "transform 0.3s ease-in-out",
@@ -86,7 +86,7 @@ const Thanks = ({ show, data, available }) => {
         fullWidth
       >
         <img
-          src="https://img.upanh.tv/2024/06/05/imaged47490f4a422b73b.png"
+          src="/images/thank-you.jpg"
           alt="Tớ ngồi code sml"
           style={{ width: '100%', height: 'auto' }}
         />

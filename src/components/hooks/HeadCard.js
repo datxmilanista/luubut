@@ -18,20 +18,22 @@ const HeadCard = ({ show, setShow, setData, available, showLetter, setShowLetter
 
   const handleStart = () => {
     setShow(true);
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: 'smooth'
-    });
+    setTimeout(() => {
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: 'smooth'
+      });
+    }, 150);
   };
 
   const handleReadLetter = () => {
     setShowLetter(true);
     setTimeout(() => {
       window.scrollTo({
-        top: window.innerHeight,
+        top: window.innerHeight * 0.8,
         behavior: 'smooth'
       });
-    }, 100);
+    }, 200);
   };
 
   const modalStyle = {
@@ -63,18 +65,33 @@ const HeadCard = ({ show, setShow, setData, available, showLetter, setShowLetter
         maxWidth: "100%",
         marginBottom: "20px",
         display: show ? "none" : "block",
-        borderRadius: "12px",
+        borderRadius: "16px",
         overflow: "hidden",
         backgroundColor: theme.palette.mode === 'dark' ? '#1e1e1e' : '#ffffff',
         color: theme.palette.mode === 'dark' ? '#ffffff' : '#000000',
         boxShadow: theme.palette.mode === 'dark'
-          ? '0 4px 12px rgba(0,0,0,0.5)'
-          : '0 4px 12px rgba(0,0,0,0.1)',
+          ? '0 8px 32px rgba(0,0,0,0.3)'
+          : '0 8px 32px rgba(0,0,0,0.1)',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '4px',
+          background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+          zIndex: 1,
+        },
         '& .MuiCardContent-root': {
           backgroundColor: theme.palette.mode === 'dark' ? '#1e1e1e' : '#ffffff',
+          position: 'relative',
+          zIndex: 2,
         },
         '& .MuiCardActions-root': {
           backgroundColor: theme.palette.mode === 'dark' ? '#1e1e1e' : '#ffffff',
+          padding: theme.spacing(2),
+          gap: theme.spacing(1),
         },
         '& .MuiTypography-root': {
           color: theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
@@ -155,36 +172,61 @@ const HeadCard = ({ show, setShow, setData, available, showLetter, setShowLetter
       </CardContent>
       <CardActions>
         <Button
+          className="enhanced-button"
           variant="contained"
           onClick={handleStart}
           disabled={showLetter}
+          startIcon={<span style={{ fontSize: '1.2em' }}>🚀</span>}
           sx={{
-            bgcolor: theme.palette.mode === 'dark' ? '#4a4a4a' : 'primary.main',
-            color: theme.palette.mode === 'dark' ? '#ffffff' : '#ffffff',
+            background: theme.palette.mode === 'dark' 
+              ? 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)'
+              : 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
+            color: '#ffffff',
+            fontWeight: 600,
+            borderRadius: '12px',
+            textTransform: 'none',
+            padding: theme.spacing(1.5, 3),
+            boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
             '&:hover': {
-              bgcolor: theme.palette.mode === 'dark' ? '#5a5a5a' : 'primary.dark',
+              background: 'linear-gradient(45deg, #764ba2 30%, #667eea 90%)',
+              boxShadow: '0 6px 20px rgba(102, 126, 234, 0.6)',
+              transform: 'translateY(-2px)',
             },
             '&:disabled': {
-              bgcolor: theme.palette.mode === 'dark' ? '#3a3a3a' : 'rgba(0, 0, 0, 0.12)',
-              color: theme.palette.mode === 'dark' ? '#8a8a8a' : 'rgba(0, 0, 0, 0.26)'
+              background: theme.palette.mode === 'dark' ? '#3a3a3a' : '#e0e0e0',
+              color: theme.palette.mode === 'dark' ? '#8a8a8a' : '#9e9e9e',
+              boxShadow: 'none',
             }
           }}
         >
           {dc.headCard.button1}
         </Button>
         <Button
-          variant="contained"
+          className="enhanced-button"
+          variant="outlined"
           onClick={handleReadLetter}
           disabled={available}
+          startIcon={<span style={{ fontSize: '1.2em' }}>📖</span>}
           sx={{
-            bgcolor: theme.palette.mode === 'dark' ? '#4a4a4a' : 'primary.main',
-            color: theme.palette.mode === 'dark' ? '#ffffff' : '#ffffff',
+            borderColor: theme.palette.mode === 'dark' ? '#667eea' : '#667eea',
+            color: theme.palette.mode === 'dark' ? '#667eea' : '#667eea',
+            fontWeight: 600,
+            borderRadius: '12px',
+            textTransform: 'none',
+            padding: theme.spacing(1.5, 3),
+            borderWidth: '2px',
             '&:hover': {
-              bgcolor: theme.palette.mode === 'dark' ? '#5a5a5a' : 'primary.dark',
+              borderColor: '#764ba2',
+              color: '#764ba2',
+              backgroundColor: theme.palette.mode === 'dark' 
+                ? 'rgba(118, 75, 162, 0.1)' 
+                : 'rgba(102, 126, 234, 0.05)',
+              borderWidth: '2px',
+              transform: 'translateY(-2px)',
             },
             '&:disabled': {
-              bgcolor: theme.palette.mode === 'dark' ? '#3a3a3a' : 'rgba(0, 0, 0, 0.12)',
-              color: theme.palette.mode === 'dark' ? '#8a8a8a' : 'rgba(0, 0, 0, 0.26)'
+              borderColor: theme.palette.mode === 'dark' ? '#3a3a3a' : '#e0e0e0',
+              color: theme.palette.mode === 'dark' ? '#8a8a8a' : '#9e9e9e',
             }
           }}
         >

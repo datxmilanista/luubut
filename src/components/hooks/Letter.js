@@ -60,7 +60,7 @@ const Letter = ({ show, data, showLetter }) => {
             <CardMedia
               component="img"
               height="400"
-              image="https://img.upanh.tv/2024/06/05/imaged47490f4a422b73b.png"
+              image="/images/thank-you.jpg" // Thay thế bằng ảnh cảm ơn
               alt="Klee"
             />
           </CardActionArea>

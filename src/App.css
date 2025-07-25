@@ -1,16 +1,40 @@
-/* Main container */
+/* Main container with improved performance */
 .App {
   text-align: left;
   display: block;
   margin: 0 auto;
-  padding-top: 5em;
-  padding-bottom: 5em;
-  width: 35%;
-  animation: fadeIn 0.5s ease-in;
+  padding-top: clamp(2rem, 5vw, 5rem);
+  padding-bottom: clamp(2rem, 5vw, 5rem);
+  width: min(35%, 800px);
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
-/* Fade-in animation */
-@keyframes fadeIn {
+/* Enhanced fade-in animation */
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(30px) translateZ(0);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0) translateZ(0);
+  }
+}
+
+/* Staggered animation for children */
+.App > * {
+  animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.App > *:nth-child(1) { animation-delay: 0.1s; }
+.App > *:nth-child(2) { animation-delay: 0.2s; }
+.App > *:nth-child(3) { animation-delay: 0.3s; }
+.App > *:nth-child(4) { animation-delay: 0.4s; }
+.App > *:nth-child(n+5) { animation-delay: 0.5s; }
+
+@keyframes slideInUp {
   from {
       opacity: 0;
       transform: translateY(20px);
@@ -21,13 +45,51 @@
   }
 }
 
-/* Card hover effect */
+/* Enhanced card hover effect with better performance */
 .card-hover {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, box-shadow;
 }
+
 .card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-8px) translateZ(0);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.15),
+    0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-hover:active {
+  transform: translateY(-4px) translateZ(0);
+  transition-duration: 0.1s;
+}
+
+/* Improved button animations */
+.enhanced-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.enhanced-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.enhanced-button:hover::before {
+  left: 100%;
+}
+
+.enhanced-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* Smooth transition for Collapse */
@@ -35,19 +97,31 @@
   transition: all 0.5s ease-in-out !important;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar with modern design */
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #888;
+  background: transparent;
   border-radius: 4px;
 }
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: linear-gradient(180deg, #764ba2 0%, #667eea 100%);
+  transform: scaleY(1.1);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #667eea transparent;
 }
 
 /* Hide scrollbar for various browsers */
@@ -60,17 +134,19 @@ html {
   transition: all 0.5s ease-in-out;
 }
 
-/* Responsive layout for different screen sizes */
-@media only screen and (max-width: 600px) {
+/* Responsive layout for different screen sizes with improved breakpoints */
+@media only screen and (max-width: 480px) {
   .App {
       width: 95vw;
-      padding-top: 1em;
-      padding-bottom: 1em;
+      padding-top: clamp(1rem, 3vw, 2rem);
+      padding-bottom: clamp(1rem, 3vw, 2rem);
   }
+  
   .card-hover:hover {
       transform: none;
       box-shadow: none;
   }
+  
   .image-full, .responsive-image, .image-responsive, .dialog-image {
       width: 100%;
       height: auto;
@@ -79,72 +155,101 @@ html {
   }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 481px) and (max-width: 768px) {
   .App {
       width: 90vw;
-      padding-top: 3em;
+      padding-top: clamp(2rem, 4vw, 3rem);
   }
 }
-@media only screen and (min-width: 768px) {
+
+@media only screen and (min-width: 769px) and (max-width: 992px) {
   .App {
-      width: 60%;
-      padding-top: 3em;
+      width: 70%;
+      padding-top: clamp(2rem, 4vw, 3rem);
   }
 }
-@media only screen and (min-width: 992px) {
+
+@media only screen and (min-width: 993px) and (max-width: 1200px) {
   .App {
-      width: 50%;
-      padding-top: 3em;
+      width: 55%;
+      padding-top: clamp(2rem, 4vw, 3rem);
   }
 }
-@media only screen and (min-width: 1450px) {
+
+@media only screen and (min-width: 1201px) and (max-width: 1450px) {
+  .App {
+      width: 45%;
+      padding-top: clamp(2rem, 4vw, 3rem);
+  }
+}
+
+@media only screen and (min-width: 1451px) {
   .App {
       width: 35%;
-      padding-top: 3em;
+      max-width: 800px;
+      padding-top: clamp(3rem, 5vw, 5rem);
   }
 }
 
-/* General container styles */
+/* Enhanced container styles with modern spacing */
 .music-container, .nameInput-container, .multipleChoice-container,
 .form-container, .shortText-container, .letter-container,
-.AboutMe-container, .thanks-container {
+.AboutMe-container, .thanks-container, .submit-container {
   display: block;
   width: 100%;
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
+  position: relative;
 }
+
 .letter-container {
-  margin-top: 2em;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .music-container {
-  margin-top: 2em;
+  margin-top: 2rem;
+  position: sticky;
+  top: 20px;
+  z-index: 100;
 }
 
-/* Social icon hover effect */
+/* Improved social icon animations */
 .social-icon-hover {
-  transition: all 0.3s ease;
-}
-.social-icon-hover:hover {
-  transform: translateY(-3px);
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
-/* Floating icon animation */
+.social-icon-hover:hover {
+  transform: translateY(-4px) scale(1.1) translateZ(0);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+}
+
+/* Enhanced floating animation */
 @keyframes floatIcon {
-  0% {
-      transform: translateY(0px);
+  0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+      transform: translateY(-3px) rotate(1deg);
   }
   50% {
-      transform: translateY(-5px);
+      transform: translateY(-6px) rotate(0deg);
   }
-  100% {
-      transform: translateY(0px);
+  75% {
+      transform: translateY(-3px) rotate(-1deg);
   }
-}
-.floating-icon {
-  animation: floatIcon 3s ease-in-out infinite;
 }
 
-/* Modal styles for image display */
+.floating-icon {
+  animation: floatIcon 4s ease-in-out infinite;
+}
+
+/* Enhanced modal styles for better UX */
 .modal {
   display: flex;
   position: fixed;
@@ -152,26 +257,196 @@ html {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-  padding: 0;
+  z-index: 2000;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(5px);
+  }
 }
 
 .modal img {
-  width: 100vw;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
   height: auto;
-  max-height: 100vh;
   cursor: pointer;
   object-fit: contain;
-  border-radius: 0;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
-/* Override specific styles on mobile */
-@media only screen and (max-width: 600px) {
-  .modal img {
-      width: 100vw;
-      height: auto;
+.modal img:hover {
+  transform: scale(1.02);
+}
+
+/* Enhanced responsive design for mobile */
+@media only screen and (max-width: 480px) {
+  .modal {
+    padding: 10px;
   }
+  
+  .modal img {
+    max-width: 95vw;
+    max-height: 95vh;
+    border-radius: 8px;
+  }
+  
+  /* Adjust App padding for progress indicator */
+  .App {
+    padding-top: clamp(4rem, 8vw, 6rem);
+  }
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Improved focus states for accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Custom selection color */
+::selection {
+  background: rgba(102, 126, 234, 0.3);
+  color: inherit;
+}
+
+::-moz-selection {
+  background: rgba(102, 126, 234, 0.3);
+  color: inherit;
+}
+
+/* Animations for lyrics */
+@keyframes lyricFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lyricHighlight {
+  0% {
+    color: inherit;
+    text-shadow: none;
+    transform: scale(1);
+  }
+  50% {
+    color: #667eea;
+    text-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    transform: scale(1.02);
+  }
+  100% {
+    color: #667eea;
+    text-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes lyricPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+
+/* Music player specific styles */
+.lyrics-container {
+  animation: lyricFadeIn 0.5s ease-in-out;
+}
+
+.active-lyric {
+  animation: lyricHighlight 0.6s ease-in-out forwards;
+}
+
+.lyrics-progress {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.1s ease-out;
+}
+
+/* Scrollbar cho lyrics */
+.lyrics-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.lyrics-scroll::-webkit-scrollbar-track {
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 2px;
+}
+
+.lyrics-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.lyrics-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #764ba2 0%, #667eea 100%);
+}
+
+/* Fallback for broken images */
+img[src*="/images/"]:not([src$=".svg"]) {
+  position: relative;
+}
+
+img[src*="/images/"]:not([src$=".svg"]):after {
+  content: "📸 Ảnh đang được tải...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+/* Placeholder for main images */
+.image-placeholder {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.image-placeholder::before {
+  content: "📸";
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
