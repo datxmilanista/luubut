@@ -41,9 +41,6 @@ const MusicPlayer = () => {
     return localStorage.getItem('musicLiked') === 'true';
   });
   const [showLyrics, setShowLyrics] = useState(false);
-  const [volume, setVolume] = useState(() => {
-    return parseFloat(localStorage.getItem('musicVolume')) || 0.7;
-  });
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [currentLyricIndex, setCurrentLyricIndex] = useState(-1);
@@ -92,13 +89,6 @@ const MusicPlayer = () => {
     localStorage.setItem('musicLiked', liked.toString());
   }, [liked]);
 
-  React.useEffect(() => {
-    localStorage.setItem('musicVolume', volume.toString());
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-    }
-  }, [volume]);
-
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       const duration = audioRef.current.duration;
@@ -121,7 +111,7 @@ const MusicPlayer = () => {
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
-      audioRef.current.volume = volume;
+      audioRef.current.volume = 0.7;
     }
   };
 
@@ -345,7 +335,7 @@ const MusicPlayer = () => {
                     }
                   }}
                 >
-                  {currentLyricIndex >= 0 ? lyrics[currentLyricIndex].text : "🎵 Mình cầm băng đóng nhau ... 🎵"}
+                  {currentLyricIndex >= 0 ? lyrics[currentLyricIndex].text : "🎵 Mình Cùng Nhau Đóng Băng 🎵"}
                 </Typography>
 
                 <Typography 

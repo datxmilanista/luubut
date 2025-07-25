@@ -56,10 +56,6 @@ function App() {
     }
   }, [localData]);
   
-  console.clear();
-  console.log("Data: ", data);
-  console.log("Is on development environment: ", onDevelopmentEnv);
-  
   return (
     <Theme>
       {show && <ProgressIndicator currentStep={getCurrentStep()} />}

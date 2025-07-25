@@ -23,7 +23,7 @@ const Thanks = ({ show, data, available }) => {
   };
 
   const handleReadLetter = () => {
-    console.log("Đọc lại thư");
+    // Handle read letter action
   };
 
   return (
